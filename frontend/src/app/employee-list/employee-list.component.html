@@ -1,0 +1,16 @@
+<div *ngIf="employees.length; else noEmployees">
+  <h2>Employee List</h2>
+  <button (click)="navigateToAddEmployee()">Add Employee</button>
+  <ul>
+    <li *ngFor="let employee of employees">
+      {{ employee.firstName }} {{ employee.lastName }}
+      <button (click)="viewEmployee(employee.id)">View</button>
+      <button (click)="deleteEmployee(employee.id)">Delete</button>
+      <button (click)="showUpdateForm(employee)">Update</button>
+    </li>
+  </ul>
+</div>
+
+<ng-template #noEmployees>
+  <p>No employees found.</p>
+</ng-template>

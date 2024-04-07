@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {AuthService} from '../auth.service';
+import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,28 +9,36 @@ import {AuthService} from '../auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
+  loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) { }
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
-      username: ['', [Validators.required, Validators.username]],
+      username: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
   }
 
   onLogin() {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe({
+      const { username, password } = this.loginForm.value;
+      this.authService.login(username, password).subscribe({
         next: (response) => {
-          console.log(response);
-          // Handle successful login, e.g., storing the token and redirecting the user
+          console.log('Login successful', response);
+          this.router.navigate(['/employee-list']);
         },
         error: (error) => {
-          console.error(error);
-          // Handle login error
+          console.error('Login failed', error);
+          // Handle error, show feedback
         }
       });
+    } else {
+      console.log('Login form is not valid');
+    }
+  }
+
+  navigateToSignup() {
+      this.router.navigate(['/signup']);
     }
 }

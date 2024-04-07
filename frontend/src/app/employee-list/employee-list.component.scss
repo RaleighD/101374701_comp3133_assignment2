@@ -19,8 +19,8 @@ ul {
 }
 
 li {
-  display: inline;
-  margin-right: 1rem;
+  display: block; /* Change display to block for vertical alignment */
+  margin-bottom: 0.5rem;
 }
 
 a {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -8,9 +9,9 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-  signupForm: FormGroup;
+  signupForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) { }
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.signupForm = this.fb.group({
@@ -22,15 +23,20 @@ export class SignupComponent implements OnInit {
 
   onSignup() {
     if (this.signupForm.valid) {
-      this.authService.signup(this.signupForm.value).subscribe({
+      const { username, email, password } = this.signupForm.value;
+
+      this.authService.signup(username, email, password).subscribe({
         next: (response) => {
-          console.log(response);
-          // Handle response
+          console.log('Signup successful', response);
+          this.router.navigate(['/login']);
         },
         error: (error) => {
-          console.error(error);
-          // Handle error
+          console.error('Signup failed', error);
+
         }
       });
+    } else {
+      console.log('Signup form is not valid');
     }
+  }
 }

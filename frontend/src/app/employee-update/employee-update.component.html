@@ -1,0 +1,23 @@
+<form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label>First Name:</label>
+    <input type="text" formControlName="firstName">
+  </div>
+  <div>
+    <label>Last Name:</label>
+    <input type="text" formControlName="lastName">
+  </div>
+  <div>
+    <label>Email:</label>
+    <input type="email" formControlName="email">
+  </div>
+  <div>
+    <label>Gender:</label>
+    <input type="text" formControlName="gender">
+  </div>
+  <div>
+    <label>Salary:</label>
+    <input type="number" formControlName="salary">
+  </div>
+  <button type="submit" [disabled]="!employeeForm.valid">Update Employee</button>
+</form>
